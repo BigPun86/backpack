@@ -28,7 +28,6 @@ import CenterDecorator from '../../storybook/CenterDecorator';
 
 import { BpkDialingCodeList } from './index';
 import { type Id, type Code } from './src/common-types';
-import BpkDialingCodeListItem from './src/BpkDialingCodeListItem';
 import BpkPhoneNumberInput, { type Props } from './src/BpkPhoneNumberInput';
 
 const styles = StyleSheet.create({
@@ -249,57 +248,7 @@ storiesOf(
 storiesOf(
   'react-native-bpk-component-phone-input/BpkDialingCodeListItem',
   module,
-)
-  .add('Standard', () => (
-    <BpkDialingCodeListItem
-      id="44"
-      dialingCode="44"
-      name="United Kingdom"
-      onPress={action('Standard BpkDialingCodeListItem pressed.')}
-    />
-  ))
-  .add('Selected', () => (
-    <BpkDialingCodeListItem
-      id="44"
-      dialingCode="44"
-      name="United Kingdom"
-      onPress={action('Standard BpkDialingCodeListItem pressed.')}
-      selected
-    />
-  ))
-  .add('With flag', () => (
-    <BpkDialingCodeListItem
-      id="44"
-      dialingCode="44"
-      name="United Kingdom"
-      onPress={action('Standard BpkDialingCodeListItem pressed.')}
-      flag={
-        <Image
-          source={{
-            uri:
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Flag_of_the_Democratic_Republic_of_the_Congo.svg/800px-Flag_of_the_Democratic_Republic_of_the_Congo.svg.png',
-          }}
-        />
-      }
-    />
-  ))
-  .add('Selected with flag', () => (
-    <BpkDialingCodeListItem
-      id="44"
-      dialingCode="44"
-      name="United Kingdom"
-      onPress={action('Standard BpkDialingCodeListItem pressed.')}
-      selected
-      flag={
-        <Image
-          source={{
-            uri:
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Flag_of_the_Democratic_Republic_of_the_Congo.svg/800px-Flag_of_the_Democratic_Republic_of_the_Congo.svg.png',
-          }}
-        />
-      }
-    />
-  ));
+);
 
 storiesOf('react-native-bpk-component-phone-input/BpkPhoneNumberInput', module)
   .addDecorator(CenterDecorator)
