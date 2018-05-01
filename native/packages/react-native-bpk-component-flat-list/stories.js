@@ -51,13 +51,16 @@ const countries = [
 ];
 
 class StatefulBpkFlatList extends React.Component<{
+  extraEntries: number,
   showImages: boolean,
 }> {
   static propTypes = {
+    extraEntries: PropTypes.number,
     showImages: PropTypes.bool,
   };
 
   static defaultProps = {
+    extraEntries: 0,
     showImages: false,
   };
 
@@ -65,27 +68,40 @@ class StatefulBpkFlatList extends React.Component<{
     super();
     this.state = { selectedCountry: 'DJ' };
   }
+
+  getData = () => {
+    const data = countries.slice();
+    if (this.props.extraEntries > 0) {
+      for (let i = 0; i < this.props.extraEntries; i += 1) {
+        data.push({ id: i.toString(), name: `Country ${i}` });
+      }
+    }
+    return data;
+  };
+
+  renderItem = ({ item }) => (
+    <BpkFlatListItem
+      title={item.name}
+      selected={this.state.selectedCountry === item.id}
+      image={
+        this.props.showImages ? (
+          <Image
+            source={{ uri: getFlagUriFromCountryCode(item.id) }}
+            style={styles.image}
+          />
+        ) : null
+      }
+      onPress={() => {
+        this.setState({ selectedCountry: item.id });
+      }}
+    />
+  );
+
   render() {
     return (
       <BpkFlatList
-        data={countries}
-        renderItem={({ item }) => (
-          <BpkFlatListItem
-            title={item.name}
-            selected={this.state.selectedCountry === item.id}
-            image={
-              this.props.showImages ? (
-                <Image
-                  source={{ uri: getFlagUriFromCountryCode(item.id) }}
-                  style={styles.image}
-                />
-              ) : null
-            }
-            onPress={() => {
-              this.setState({ selectedCountry: item.id });
-            }}
-          />
-        )}
+        data={this.getData()}
+        renderItem={this.renderItem}
         ItemSeparatorComponent={
           Platform.OS === 'ios' ? BpkFlatListItemSeparator : null
         }
@@ -99,4 +115,5 @@ class StatefulBpkFlatList extends React.Component<{
 storiesOf('react-native-bpk-component-flat-list', module)
   .addDecorator(getStory => <View style={styles.topMargin}>{getStory()}</View>)
   .add('docs:default', () => <StatefulBpkFlatList />)
-  .add('docs:with-images', () => <StatefulBpkFlatList showImages />);
+  .add('docs:with-images', () => <StatefulBpkFlatList showImages />)
+  .add('Perf (Long list)', () => <StatefulBpkFlatList extraEntries={200} />);
